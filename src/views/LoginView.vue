@@ -63,9 +63,14 @@
 </template>
 
 <script setup lang="ts">
-import { AuthApi } from '~/base/api/auth';
+// import { AuthApi } from '~/base/api/auth';
 const thirdPartyRegister = async (thirdParty: 'line' | 'google') => {
-    window.location.href = `https://appclass-back.zeabur.app/auth/${thirdParty}`;
+    try {
+        // 從後端獲取第三方登入的 URL 並跳轉
+        window.location.href = `https://appclass-back.zeabur.app/api/auth/${thirdParty}/redirect`;
+    } catch (error) {
+        console.error('授權錯誤: ', error);
+    }
 };
 </script>
 

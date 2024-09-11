@@ -1,18 +1,14 @@
 import axios from 'axios';
+import { useAuthStore } from '@/stores/auth';
 import type { AxiosRequestConfig, AxiosResponse, Method } from 'axios'; // 引入类型声明
-import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
-// import { useAuthStore } from '~/store/useAuthStore';
-// import { usePublicStore } from '@/store/usePublicStore';
-// 封装 Axios 请求
-// const { apiBaseUrl, isLoading } = storeToRefs(usePublicStore());
-const apiBaseUrl = computed(() =>
-    process.env.NODE_ENV === 'production' ? `${process.env.VUE_APP_BASE_URL}/api` : 'http://127.0.0.1:8000/api'
-);
+import { storeToRefs } from 'pinia';
+
+const authStore = useAuthStore();
+
+const apiBaseUrl = computed(() => 'https://appclass-back.zeabur.app/api');
 const isLoading = ref(false);
-// const authStore = useAuthStore();
-const token = ref('');
-// const { token } = storeToRefs(authStore);
+const { token } = storeToRefs(authStore);
 const ajax = axios.create({
     baseURL: apiBaseUrl.value,
     headers: {
@@ -20,6 +16,7 @@ const ajax = axios.create({
         'X-Requested-With': 'XMLHttpRequest',
         'Authorization': 'Bearer ' + token.value || ''
     },
+    withCredentials: true,
     timeout: 60000 // 超时设置
 });
 

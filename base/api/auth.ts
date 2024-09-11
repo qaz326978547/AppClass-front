@@ -32,8 +32,28 @@ export namespace AuthApi {
         window.location.href = `https://appclass-back.zeabur.app/auth/${thirdParty}`;
     }
 
-    export async function testLog() {
-        const [err, result] = await asyncDo($http<{ token: string }>('get', `test`));
+    export async function getThirdPartyRegister(thirdParty: 'google' | 'line') {
+        console.log('thirdParty', thirdParty);
+
+        const [err, result] = await asyncDo($http<{ data: { url: string } }>('get', `auth/${thirdParty}`));
+        if (!isResponseOK(err, result)) {
+            return false;
+        }
+        console.log('result', result);
+
+        return result;
+    }
+
+    export async function postThirdPartyCallback(thirdParty: 'google' | 'line') {
+        const [err, result] = await asyncDo($http<{ data: { token: string } }>('get', `auth/${thirdParty}/callback`));
+        if (!isResponseOK(err, result)) {
+            return false;
+        }
+        return result;
+    }
+
+    export async function getToken() {
+        const [err, result] = await asyncDo($http<{ token: string }>('get', 'auth/user'));
         if (!isResponseOK(err, result)) {
             return false;
         }

@@ -23,9 +23,14 @@ const router = createRouter({
             component: () => import('@/views/LoginView.vue')
         },
         {
-            path: '/auth/:provider/callback',
-            name: 'auth-callback',
-            component: () => import('../views/AuthCallback.vue')
+            path: '/member',
+            name: 'Member',
+            component: () => import('@/views/Member/MemberView.vue')
+        },
+        {
+            path: '/auth/callback',
+            name: 'AuthCallback',
+            component: () => import('@/views/Member/AuthCallbackView.vue')
         },
         {
             path: '/:pathMatch(.*)*', // 404

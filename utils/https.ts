@@ -3,6 +3,8 @@ import { useAuthStore } from '@/stores/auth';
 import type { AxiosRequestConfig, AxiosResponse, Method } from 'axios'; // 引入类型声明
 import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import Swal from 'sweetalert2';
+import router from '@/router';
 
 const authStore = useAuthStore();
 
@@ -62,19 +64,41 @@ export function isResponseOK(err: any, result: any) {
     if (err && !result) {
         console.warn(err, result);
         if (err.status == 401) {
-            alert('請先登入');
+            Swal.fire({
+                title: '請先登入',
+                icon: 'error',
+                confirmButtonText: '確定'
+            }).then(() => {
+                router.push('/login');
+            });
         }
         if (err.status == 403) {
-            alert('權限不足');
+            Swal.fire({
+                title: '權限不足',
+                icon: 'error',
+                confirmButtonText: '確定'
+            });
         }
         if (err.status == 404) {
-            alert('找不到資源');
+            Swal.fire({
+                title: '找不到資源',
+                icon: 'error',
+                confirmButtonText: '確定'
+            });
         }
         if (err.status == 500) {
-            alert('伺服器錯誤');
+            Swal.fire({
+                title: '伺服器錯誤',
+                icon: 'error',
+                confirmButtonText: '確定'
+            });
         }
         if (err.status == 503) {
-            alert('服務暫時無法使用');
+            Swal.fire({
+                title: '伺服器維護中',
+                icon: 'error',
+                confirmButtonText: '確定'
+            });
         }
         return false;
     }

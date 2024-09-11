@@ -18,6 +18,7 @@
                     width="48"
                     height="48"
                     style="color: white"
+                    @click="thirdPartyRegister('line')"
                 >
                 </iconify-icon>
             </div>
